@@ -1,0 +1,19 @@
+apiVersion: v2
+version: 0.0.1
+name: cluster-proxmox
+description: "A helm chart for creating Cluster API clusters with the Proxmox VE provider (CAPMOX)."
+annotations:
+  application.giantswarm.io/team: rocket
+home: https://github.com/giantswarm/cluster-proxmox
+icon: https://s.giantswarm.io/app-icons/example/1/light.svg
+keywords:
+  - capmox
+  - proxmox
+maintainers:
+  - name: Team Rocket
+    email: team-rocket@giantswarm.io
+restrictions:
+  compatibleProviders:
+    - proxmox
+sources:
+- https://github.com/giantswarm/cluster-proxmox
