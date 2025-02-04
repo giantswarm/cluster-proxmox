@@ -1,0 +1,75 @@
+global:
+  connectivity:
+    baseDomain: k8s.test
+    network:
+      controlPlaneEndpoint:
+        host: 10.0.0.50
+        port: 6443
+      loadBalancers:
+        cidrBlocks:
+          - "10.0.0.68/30"
+  controlPlane:
+    replicas: 3
+    machineTemplate:
+      disks:
+        bootVolume:
+          disk: scsi0
+          sizeGb: 50
+      network:
+        default:
+          bridge: vmbr0
+          model: virtio
+      memoryMiB: 8192
+      numCores: 2
+      numSockets: 2
+      pool: kubernetes
+      sourceNode: node1
+      templateID: 101
+      vmIDRange:
+        start: 200
+        end: 400
+  metadata:
+    description: "test cluster"
+    name: "test"
+    organization: "giantswarm"
+    preventDeletion: true
+    servicePriority: highest
+  nodePools:
+    worker:
+      disks:
+        bootVolume:
+          disk: scsi0
+          sizeGb: 50
+      network:
+        default:
+          bridge: vmbr0
+          model: virtio
+      memoryMiB: 8192
+      numCores: 2
+      numSockets: 2
+      pool: kubernetes
+      replicas: 3
+      sourceNode: node1
+      templateID: 101
+      vmIDRange:
+        start: 200
+        end: 400
+  providerSpecific:
+    proxmox:
+      allowedNodes:
+        - "node1"
+        - "node2"
+      dnsServers:
+        - "1.1.1.1"
+        - "2.2.2.2"
+      ipv4Config:
+        addresses:
+          - "10.0.0.100-10.0.0.150"
+          - "10.0.0.200-10.0.0.250"
+        gateway: "10.0.0.1"
+        prefix: 24
+      secret: "secretstring"
+      token: "tokenstring"
+      url: "https://proxmox.example.com:8006/api2/json"
+  release:
+    version: v28.0.0
