@@ -1,0 +1,166 @@
+{{- if (include "isIpamEnabled" $) -}}
+# Because the IP for the control plane of a new workload cluster is not known at the time of cluster
+# creation, we use a post-install/post-upgrade hook Job to assign the IP from an IPAddress CR.
+# This IPAddress CR should be created by cluster-api-ipam-provider-in-cluster controller as a
+# response to creating the IPAddressClaim CR (the name of both is the same).
+# The IP is set to:
+#   - proxmoxcluster.spec.controlPlaneEndpoint.host
+#   - static pod definition for kubevip (.spec.containers.env[vip_address])
+#   - kubeadmcontrolplane.spec.kubeadmConfigSpec.clusterConfiguration.apiServer.certSANs[0]
+#
+# In case of an upgrade, the Cluster CR is first paused, then IP is assigned and then the cluster is unpaused.
+#
+# If `isIpamSvcLoadBalancerEnabled`, this job also allocates a new free IP for a kube-vip Service Load Balancer running
+# in the WC. This is passed as a config option in HelmRelease -> helm release needs to be suspended first, updated and resumed
+#
+# every resource in this file has "helm.sh/hook-weight": "0"
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ include "resource.default.name" $ }}-pre-upgrade-pause-hook"
+  namespace: "{{ $.Release.Namespace }}"
+  labels:
+    {{- include "labels.common" $ | nindent 4 }}
+  annotations:
+    "helm.sh/hook": "pre-upgrade"
+    "helm.sh/hook-delete-policy": "before-hook-creation"
+    "helm.sh/hook-weight": "0"
+spec:
+  ttlSecondsAfterFinished: 86400 # 24h
+  template:
+    metadata:
+      name: "{{ include "resource.default.name" $ }}-update-values-hook"
+      namespace: "{{ $.Release.Namespace }}"
+      labels:
+        {{- include "labels.common" $ | nindent 8 }}
+    spec:
+      restartPolicy: Never
+      serviceAccountName: "{{ include "resource.default.name" $ }}-update-values-hook"
+      securityContext:
+        runAsUser: {{ include "securityContext.runAsUser" $ }}
+        runAsGroup: {{ include "securityContext.runAsGroup" $ }}
+      containers:
+        - name: pre-upgrade-job
+          {{- include "ipamJobContainerCommon" . | nindent 10 }}
+          command:
+            - "/bin/bash"
+            - "-xc"
+            - kubectl patch cluster.cluster.x-k8s.io -n {{ $.Release.Namespace }} {{ include "resource.default.name" $ }} --type=merge -p '{"spec":{"paused":true}}'
+{{- if (include "isIpamSvcLoadBalancerEnabled" $) }}
+            - kubectl patch helmrelease -n {{ $.Release.Namespace }} {{ include "resource.default.name" $ }}-cloud-provider-vsphere --type=merge -p '{"spec":{"suspend":true}}'
+{{- end }}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ include "resource.default.name" $ }}-update-values-hook"
+  namespace: "{{ $.Release.Namespace }}"
+  labels:
+    {{- include "labels.common" $ | nindent 4 }}
+  annotations:
+    "helm.sh/hook": "post-install,post-upgrade"
+    "helm.sh/hook-delete-policy": "before-hook-creation"
+    "helm.sh/hook-weight": "0"
+spec:
+  ttlSecondsAfterFinished: 86400 # 24h
+  template:
+    metadata:
+      name: "{{ include "resource.default.name" $ }}-update-values-hook"
+      namespace: "{{ $.Release.Namespace }}"
+      labels:
+        {{- include "labels.common" $ | nindent 8 }}
+    spec:
+      restartPolicy: Never
+      serviceAccountName: "{{ include "resource.default.name" $ }}-update-values-hook"
+      securityContext:
+        runAsUser: {{ include "securityContext.runAsUser" $ }}
+        runAsGroup: {{ include "securityContext.runAsGroup" $ }}
+      initContainers:
+{{- if (include "isIpamControlPlaneIPEnabled" $) }}
+        - name: get-ip-for-control-plane
+          {{- include "ipamJobContainerCommon" . | nindent 10 }}
+          command:
+            - "/bin/bash"
+            - "-c"
+            - |
+              set -o errexit
+              set -o pipefail
+              set -o nounset
+              new_ip=""
+              while [ -z "${new_ip}" ] ; do
+                echo "waiting for a free IP address.."
+                new_ip=$(kubectl get ipaddresses.ipam.cluster.x-k8s.io --ignore-not-found -n {{ $.Release.Namespace }} {{ include "resource.default.name" $ }} -o 'jsonpath={.spec.address}')
+                sleep 2
+              done
+              echo "Got the IP: ${new_ip}"
+              # patch the proxmoxcluster.spec.controlPlaneEndpoint.host
+              kubectl patch proxmoxcluster -n {{ $.Release.Namespace }} {{ include "resource.default.name" $ }} --type=merge -p '{"spec":{"controlPlaneEndpoint":{"host": "'${new_ip}'"}}}'
+
+              # patch the kubeadmcontrolplane.spec.kubeadmConfigSpec.clusterConfiguration.apiServer.certSANs[0]
+              kubectl patch kubeadmcontrolplane -n {{ $.Release.Namespace }} {{ include "resource.default.name" $ }} --type json \
+                -p '[{"op":"replace", "path":"/spec/kubeadmConfigSpec/clusterConfiguration/apiServer/certSANs/0", "value": "'${new_ip}'"}]'
+
+              # patch also the static pod for kube-vip
+              encoded=$(kubectl get secret -n {{ $.Release.Namespace }} {{ include "resource.default.name" $ }}-kubevip-pod -o jsonpath={.data.content} \
+                | base64 --decode \
+                | tr '\n' '\r' \
+                | sed -e "s/vip_address\\r[^$(printf '\r')]*/vip_address\\r      value: ${new_ip}/" \
+                | tr '\r' '\n' \
+                | base64 -w 0)
+              kubectl patch secret -n {{ $.Release.Namespace }} {{ include "resource.default.name" $ }}-kubevip-pod --type=merge -p '{"data": {"content": "'${encoded}'"}}'
+
+{{- end }}
+{{- if (include "isIpamSvcLoadBalancerEnabled" $) }}
+        - name: get-ip-for-svc-lb
+          {{- include "ipamJobContainerCommon" . | nindent 10 }}
+          command:
+            - "/bin/bash"
+            - "-c"
+            - |
+              set -o errexit
+              set -o pipefail
+              set -o nounset
+
+              ip_list=""
+              # Iterate over each ipAddressClaim
+              count=0
+              while [ $count -lt {{ .Values.global.connectivity.network.loadBalancers.numberOfIps }} ]
+              do
+                new_ip=""
+                while [ -z "${new_ip}" ] ; do
+                  echo "waiting for a free IP address.."
+                  new_ip=$(kubectl get ipaddresses.ipam.cluster.x-k8s.io --ignore-not-found -n {{ $.Release.Namespace }} {{ include "lbClaimName" $ }}-${count} -o 'jsonpath={.spec.address}')
+                  sleep 2
+                done
+                echo "Got the IP: ${new_ip}"
+                new_ip="${new_ip}/32"
+
+                if [ -n "$ip_list" ]; then
+                  ip_list="${ip_list},${new_ip}"
+                else
+                  ip_list="${new_ip}"
+                fi
+                count=$((count+1))
+              done
+
+              # patch the cloud-provider-proxmox-helmrelease
+              {{- if .Values.global.connectivity.network.loadBalancers.cidrBlocks }}
+              ip_list="${ip_list},{{ join "," .Values.global.connectivity.network.loadBalancers.cidrBlocks }}"
+              {{- end }}
+              kubectl patch helmrelease -n {{ $.Release.Namespace }} {{ include "resource.default.name" $ }}-cloud-provider-vsphere --type=merge -p '{"spec":{"suspend":false,"values":{"kube-vip-cloud-provider": {"cidrGlobal": "'${ip_list}'"}}}}'
+{{- end }}
+      containers:
+        - name: resume-cluster
+          {{- include "ipamJobContainerCommon" . | nindent 10 }}
+          command:
+            - "/bin/bash"
+            - "-c"
+            - |
+              set -o errexit
+              set -o pipefail
+              set -o nounset
+              echo "New IPs have been assigned, upausing the Cluster '{{ include "resource.default.name" $ }}' resource.."
+              kubectl get ipaddresses.ipam.cluster.x-k8s.io -n {{ $.Release.Namespace }}
+              kubectl patch cluster.cluster.x-k8s.io -n {{ $.Release.Namespace }} {{ include "resource.default.name" $ }} --type=merge -p '{"spec":{"paused":false}}'
+---
+{{- end }}

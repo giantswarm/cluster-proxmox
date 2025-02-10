@@ -7,31 +7,67 @@ Expand the name of the chart.
 {{- end -}}
 
 {{/*
+Create a prefix for all resource names.
+*/}}
+{{- define "resource.default.name" -}}
+{{ .Release.Name }}
+{{- end -}}
+
+{{/*
 Create chart name and version as used by the chart label.
 */}}
 {{- define "chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
+{{- define "infrastructureApiVersion" -}}
+infrastructure.cluster.x-k8s.io/v1alpha1
+{{- end -}}
+
 {{/*
 Selector labels
 */}}
 {{- define "labels.selector" -}}
-app.kubernetes.io/name: {{ include "name" . | quote }}
-app.kubernetes.io/instance: {{ .Release.Name | quote }}
+app: {{ include "name" . | quote }}
+app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+application.giantswarm.io/team: {{ index .Chart.Annotations "application.giantswarm.io/team" | quote }}
+cluster.x-k8s.io/cluster-name: {{ include "resource.default.name" . | quote }}
+giantswarm.io/cluster: {{ include "resource.default.name" . | quote }}
+giantswarm.io/organization: {{ required "You must provide an existing organization name in .global.metadata.organization" .Values.global.metadata.organization | quote }}
 {{- end -}}
 
 {{/*
 Common labels
 */}}
 {{- define "labels.common" -}}
-{{ include "labels.selector" . }}
-app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-application.giantswarm.io/branch: {{ .Chart.Annotations.branch | replace "#" "-" | replace "/" "-" | replace "." "-" | trunc 63 | trimSuffix "-" | quote }}
-application.giantswarm.io/commit: {{ .Chart.Annotations.commit | quote }}
-application.giantswarm.io/team: {{ index .Chart.Annotations "application.giantswarm.io/team" | quote }}
-giantswarm.io/managed-by: {{ .Release.Name | quote }}
-giantswarm.io/service-type: {{ .Values.serviceType }}
+{{- include "labels.selector" . }}
+app.kubernetes.io/version: {{ $.Chart.Version | quote }}
 helm.sh/chart: {{ include "chart" . | quote }}
+release.giantswarm.io/version: {{ .Values.global.release.version | trimPrefix "v" | quote }}
 {{- end -}}
+
+{{/*
+Create label to prevent accidental cluster deletion
+*/}}
+{{- define "preventDeletionLabel" -}}
+{{- if $.Values.global.metadata.preventDeletion -}}
+giantswarm.io/prevent-deletion: "true"
+{{- end -}}
+{{- end -}}
+
+{{- define "credentialSecretName" -}}
+{{- include "resource.default.name" $ }}-proxmox-credentials
+{{- end -}}
+
+{{/*
+Takes an array of maps containing worker nodePools and adds each map to a new
+map. Results in a map of node specs which can be iterated over to create
+MachineDeployments.
+*/}}
+{{ define "createMapOfWorkerPoolSpecs" -}}
+{{- $nodeMap := dict -}}
+{{- range $index, $pool := .Values.global.nodePools | default .Values.cluster.providerIntegration.workers.defaultNodePools -}}
+  {{- $_ := set $nodeMap $index $pool -}}
+{{- end -}}
+{{ toYaml $nodeMap }}
+{{- end }}

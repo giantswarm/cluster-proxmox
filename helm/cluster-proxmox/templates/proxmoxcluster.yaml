@@ -1,0 +1,31 @@
+apiVersion: {{ include "infrastructureApiVersion" . }}
+kind: ProxmoxCluster
+metadata:
+  name: {{ include "resource.default.name" $ }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "labels.common" . | nindent 4 }}
+    {{- include "preventDeletionLabel" $ | nindent 4 }}
+spec:
+  {{- if .Values.global.providerSpecific.proxmox.allowedNodes }}
+  allowedNodes:
+  {{- range $node := .Values.global.providerSpecific.proxmox.allowedNodes }}
+  - {{ $node }}
+  {{- end }}
+  {{- end }}
+  controlPlaneEndpoint:
+    host: '{{ ((.Values.global.connectivity.network).controlPlaneEndpoint).host }}'
+    port: {{ ((.Values.global.connectivity.network).controlPlaneEndpoint).port | default 6443 }}
+  dnsServers:
+  {{- range $server := .Values.global.providerSpecific.proxmox.dnsServers }}
+  - {{ $server }}
+  {{- end }}
+  ipv4Config:
+    addresses:
+    {{- range $addresses := .Values.global.providerSpecific.proxmox.ipv4Config.addresses }}
+    - {{ $addresses }}
+    {{- end }}
+    gateway: {{ .Values.global.providerSpecific.proxmox.ipv4Config.gateway }}
+    prefix: {{ .Values.global.providerSpecific.proxmox.ipv4Config.prefix }}
+  credentialsRef:
+    name: {{ include "credentialSecretName" $ }}

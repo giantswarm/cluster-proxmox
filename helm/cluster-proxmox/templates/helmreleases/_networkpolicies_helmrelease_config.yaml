@@ -1,0 +1,6 @@
+{{/* Proxmox-specific network-policies Helm values*/}}
+{{/* https://github.com/giantswarm/network-policies-app/blob/main/helm/network-policies-app/values.yaml */}}
+{{- define "proxmoxNetworkPoliciesHelmValues" }}
+allowEgressToDNS:
+  enabled: true
+{{- end }}

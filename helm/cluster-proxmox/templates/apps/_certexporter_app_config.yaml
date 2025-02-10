@@ -1,0 +1,6 @@
+{{/* Proxmox-specific cert-exporter Helm values*/}}
+{{/* https://github.com/giantswarm/cert-exporter/blob/master/helm/cert-exporter/values.yaml */}}
+{{- define "proxmoxCertExporterHelmValues" }}
+ciliumNetworkPolicy:
+  enabled: true
+{{- end }}

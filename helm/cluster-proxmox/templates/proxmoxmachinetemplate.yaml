@@ -1,0 +1,28 @@
+---
+apiVersion: {{ include "infrastructureApiVersion" . }}
+kind: ProxmoxMachineTemplate
+metadata:
+  name: {{ include "resource.default.name" $ }}-control-plane-{{ include "cluster.data.hash" (dict "data" (include "controlplane-proxmoxmachinetemplate-spec" $) "salt" $.Values.cluster.providerIntegration.hashSalt) }}
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    {{- include "labels.common" $ | nindent 4 }}
+spec:
+  template:
+    spec:
+      {{- include "controlplane-proxmoxmachinetemplate-spec" $ | nindent 6 -}}
+
+{{- range $nodePoolName, $nodePool := include "createMapOfWorkerPoolSpecs" . | fromYaml }}
+{{- $_ := set $ "nodePool" (dict "name" $nodePoolName "config" $nodePool) }}
+---
+apiVersion: {{ include "infrastructureApiVersion" . }}
+kind: ProxmoxMachineTemplate
+metadata:
+  name: {{ include "resource.default.name" $ }}-{{ $.nodePool.name }}-{{ include "cluster.data.hash" (dict "data" (include "worker-proxmoxmachinetemplate-spec" $) "salt" $.Values.cluster.providerIntegration.hashSalt) }}
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    {{- include "labels.common" $ | nindent 4 }}
+spec:
+  template:
+    spec:
+      {{- include "worker-proxmoxmachinetemplate-spec" $ | nindent 6 -}}
+{{- end }}
