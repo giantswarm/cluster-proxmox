@@ -325,8 +325,6 @@
                                                         ]
                                                     },
                                                     "service": {
-                                                        "remainAfterExit": "yes",
-                                                        "restart": "on-failure",
                                                         "type": "oneshot",
                                                         "environmentFile": [
                                                             "/etc/proxmox-env"
@@ -334,7 +332,9 @@
                                                         "execStart": [
                                                             "/usr/bin/mkdir --parent /run/metadata",
                                                             "/bin/bash -c 'env > /run/metadata/coreos'"
-                                                        ]
+                                                        ],
+                                                        "remainAfterExit": "yes",
+                                                        "restart": "on-failure"
                                                     },
                                                     "unit": {
                                                         "description": "Proxmox metadata agent",
