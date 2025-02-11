@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Integration of `giantswarm/cluster` (with releases disabled).
+
 ### Changed
 
 - Initial commit of chart.
