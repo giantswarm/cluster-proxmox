@@ -175,12 +175,14 @@
             "properties": {
                 "end": {
                     "type": "integer",
+                    "title": "VM ID range end",
                     "description": "End of the VM ID range.",
                     "maximum": 999999999,
                     "minimum": 100
                 },
                 "start": {
                     "type": "integer",
+                    "title": "VM ID range start",
                     "description": "Start of the VM ID range.",
                     "maximum": 999999999,
                     "minimum": 100
@@ -711,6 +713,7 @@
                             "properties": {
                                 "description": {
                                     "$ref": "#/$defs/vmDescription",
+                                    "title": "VM description",
                                     "description": "Description for the VMs."
                                 },
                                 "disks": {
@@ -725,10 +728,12 @@
                                 },
                                 "format": {
                                     "$ref": "#/$defs/diskFormat",
+                                    "title": "Disk format",
                                     "description": "Format of the cloned disk."
                                 },
                                 "memoryMiB": {
                                     "$ref": "#/$defs/memoryMiB",
+                                    "title": "Memory size",
                                     "description": "Memory size in MiB."
                                 },
                                 "network": {
@@ -743,30 +748,37 @@
                                 },
                                 "numCores": {
                                     "$ref": "#/$defs/numCores",
+                                    "title": "CPU cores",
                                     "description": "Number of CPU cores."
                                 },
                                 "numSockets": {
                                     "$ref": "#/$defs/numSockets",
+                                    "title": "CPU sockets",
                                     "description": "Number of CPU sockets."
                                 },
                                 "pool": {
                                     "$ref": "#/$defs/pool",
+                                    "title": "Resource pool",
                                     "description": "Name of the resource pool to add VMs to."
                                 },
                                 "sourceNode": {
                                     "$ref": "#/$defs/sourceNode",
+                                    "title": "Source node",
                                     "description": "Name of the initial node to operate against."
                                 },
                                 "storage": {
                                     "$ref": "#/$defs/storage",
+                                    "title": "Storage name",
                                     "description": "Name of the storage for the cloned disk."
                                 },
                                 "templateID": {
                                     "$ref": "#/$defs/templateID",
+                                    "title": "Template ID",
                                     "description": "ID of the VM template to clone."
                                 },
                                 "vmIDRange": {
                                     "$ref": "#/$defs/vmIDRange",
+                                    "title": "VM ID range",
                                     "description": "VM ID range."
                                 }
                             }
@@ -805,6 +817,7 @@
                         },
                         "replicas": {
                             "$ref": "#/$defs/replicas",
+                            "title": "Replicas",
                             "description": "Replica count."
                         }
                     }
@@ -890,6 +903,7 @@
                             "properties": {
                                 "description": {
                                     "$ref": "#/$defs/vmDescription",
+                                    "title": "VM description",
                                     "description": "Description for the VMs."
                                 },
                                 "disks": {
@@ -904,10 +918,12 @@
                                 },
                                 "format": {
                                     "$ref": "#/$defs/diskFormat",
+                                    "title": "Disk format",
                                     "description": "Format of the cloned disk."
                                 },
                                 "memoryMiB": {
                                     "$ref": "#/$defs/memoryMiB",
+                                    "title": "Memory size",
                                     "description": "Memory size in MiB."
                                 },
                                 "network": {
@@ -922,34 +938,42 @@
                                 },
                                 "numCores": {
                                     "$ref": "#/$defs/numCores",
+                                    "title": "CPU cores",
                                     "description": "Number of CPU cores."
                                 },
                                 "numSockets": {
                                     "$ref": "#/$defs/numSockets",
+                                    "title": "CPU sockets",
                                     "description": "Number of CPU sockets."
                                 },
                                 "pool": {
                                     "$ref": "#/$defs/pool",
+                                    "title": "Resource pool",
                                     "description": "Name of the resource pool to add VMs to."
                                 },
                                 "replicas": {
                                     "$ref": "#/$defs/replicas",
+                                    "title": "Replicas",
                                     "description": "Replica count."
                                 },
                                 "sourceNode": {
                                     "$ref": "#/$defs/sourceNode",
+                                    "title": "Source node",
                                     "description": "Name of the initial node to operate against."
                                 },
                                 "storage": {
                                     "$ref": "#/$defs/storage",
+                                    "title": "Storage name",
                                     "description": "Name of the storage for the cloned disk."
                                 },
                                 "templateID": {
                                     "$ref": "#/$defs/templateID",
+                                    "title": "Template ID",
                                     "description": "ID of the VM template to clone."
                                 },
                                 "vmIDRange": {
                                     "$ref": "#/$defs/vmIDRange",
+                                    "title": "VM ID range",
                                     "description": "VM ID range."
                                 }
                             }
