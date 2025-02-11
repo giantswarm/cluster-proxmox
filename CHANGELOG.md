@@ -10,5 +10,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Initial commit of chart.
+- Add required values to pass schema validation.
 
 [Unreleased]: https://github.com/giantswarm/cluster-proxmox/tree/main
