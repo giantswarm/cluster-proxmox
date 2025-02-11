@@ -325,9 +325,9 @@
                                                         ]
                                                     },
                                                     "service": {
-                                                        "RemainAfterExit": "yes",
-                                                        "Restart": "on-failure",
-                                                        "Type": "oneshot",
+                                                        "remainAfterExit": "yes",
+                                                        "restart": "on-failure",
+                                                        "type": "oneshot",
                                                         "environmentFile": [
                                                             "/etc/proxmox-env"
                                                         ],

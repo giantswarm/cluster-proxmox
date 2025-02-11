@@ -87,14 +87,14 @@ cluster:
                       wantedBy:
                         - multi-user.target
                     service:
-                      RemainAfterExit: "yes"
-                      Restart: on-failure
-                      Type: oneshot
                       environmentFile:
                         - /etc/proxmox-env
                       execStart:
                         - /usr/bin/mkdir --parent /run/metadata
                         - /bin/bash -c 'env > /run/metadata/coreos'
+                      remainAfterExit: "yes"
+                      restart: on-failure
+                      type: oneshot
                     unit:
                       after:
                         - network-online.target
