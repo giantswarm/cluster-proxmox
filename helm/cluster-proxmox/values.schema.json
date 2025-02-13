@@ -327,16 +327,16 @@
                                                         ]
                                                     },
                                                     "service": {
-                                                        "RemainAfterExit": "yes",
-                                                        "Restart": "on-failure",
-                                                        "Type": "oneshot",
+                                                        "type": "oneshot",
                                                         "environmentFile": [
                                                             "/etc/proxmox-env"
                                                         ],
                                                         "execStart": [
                                                             "/usr/bin/mkdir --parent /run/metadata",
                                                             "/bin/bash -c 'env > /run/metadata/coreos'"
-                                                        ]
+                                                        ],
+                                                        "remainAfterExit": "yes",
+                                                        "restart": "on-failure"
                                                     },
                                                     "unit": {
                                                         "description": "Proxmox metadata agent",
@@ -421,7 +421,7 @@
                         },
                         "nodePoolKind": "MachineDeployment"
                     },
-                    "useReleases": true,
+                    "useReleases": false,
                     "workers": {
                         "defaultNodePools": {
                             "def00": {

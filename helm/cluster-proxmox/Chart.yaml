@@ -17,3 +17,10 @@ restrictions:
     - proxmox
 sources:
 - https://github.com/giantswarm/cluster-proxmox
+dependencies:
+  - name: cluster
+    version: "1.7.0"
+    repository: "https://giantswarm.github.io/cluster-catalog"
+  - name: cluster-shared
+    version: "0.7.1"
+    repository: "https://giantswarm.github.io/cluster-catalog"
