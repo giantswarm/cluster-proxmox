@@ -421,7 +421,7 @@
                         },
                         "nodePoolKind": "MachineDeployment"
                     },
-                    "useReleases": false,
+                    "useReleases": true,
                     "workers": {
                         "defaultNodePools": {
                             "def00": {
