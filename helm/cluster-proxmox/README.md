@@ -165,8 +165,10 @@ Properties within the `.global.providerSpecific` object
 | `global.providerSpecific.proxmox` | **Proxmox** - Configuration for Proxmox API access.|**Type:** `object`<br/>|
 | `global.providerSpecific.proxmox.allowedNodes` | **Allowed nodes** - List of nodes to be used for VM deployment.|**Type:** `array`<br/>**Examples:** `"node1", "node2"`<br/>**Default:** `[]`|
 | `global.providerSpecific.proxmox.allowedNodes[*]` |**None**|**Type:** `string`<br/>|
+| `global.providerSpecific.proxmox.clusterName` | **Cluster name** - Name of the Proxmox VE cluster.|**Type:** `string`<br/>|
 | `global.providerSpecific.proxmox.dnsServers` | **DNS servers** - DNS servers for machine network-config.|**Type:** `array`<br/>**Example:** `"10.0.0.10"`<br/>|
 | `global.providerSpecific.proxmox.dnsServers[*]` |**None**|**Type:** `string`<br/>|
+| `global.providerSpecific.proxmox.insecure` | **Insecure** - Ignore self-signed TLS certificate.|**Type:** `boolean`<br/>**Default:** `false`|
 | `global.providerSpecific.proxmox.ipv4Config` | **IPv4 configuration** - Configuration for IPv4 addresses.|**Type:** `object`<br/>|
 | `global.providerSpecific.proxmox.ipv4Config.addresses` | **IP addresses** - IP address ranges to be used for VMs.|**Type:** `array`<br/>**Example:** `"10.0.0.100-10.0.0.200"`<br/>|
 | `global.providerSpecific.proxmox.ipv4Config.addresses[*]` |**None**|**Type:** `string`<br/>|
