@@ -59,6 +59,7 @@ global:
       allowedNodes:
         - "node1"
         - "node2"
+      clusterName: "pve"
       dnsServers:
         - "1.1.1.1"
         - "2.2.2.2"
