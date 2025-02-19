@@ -71,3 +71,14 @@ MachineDeployments.
 {{- end -}}
 {{ toYaml $nodeMap }}
 {{- end }}
+
+{{- define "cloudProviderProxmoxSecret" }}
+features:
+  provider: capmox
+clusters:
+- url: {{ .Values.global.providerSpecific.proxmox.url | quote }}
+  insecure: {{ .Values.global.providerSpecific.proxmox.insecure  }}
+  token_id: {{ .Values.global.providerSpecific.proxmox.token | quote }}
+  token_secret: {{ .Values.global.providerSpecific.proxmox.secret | quote }}
+  region: {{ .Values.global.providerSpecific.proxmox.clusterName | quote }}
+{{ end -}}

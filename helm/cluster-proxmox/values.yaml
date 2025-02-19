@@ -236,6 +236,7 @@ global:
   providerSpecific:
     proxmox:
       allowedNodes: []
+      insecure: false
       ipv4Config: {}
   release: {}
 internal:

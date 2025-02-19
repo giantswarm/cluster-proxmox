@@ -1001,6 +1001,7 @@
                             "title": "Proxmox",
                             "description": "Configuration for Proxmox API access.",
                             "required": [
+                                "clusterName",
                                 "dnsServers",
                                 "ipv4Config",
                                 "secret",
@@ -1021,6 +1022,11 @@
                                     },
                                     "default": []
                                 },
+                                "clusterName": {
+                                    "type": "string",
+                                    "title": "Cluster name",
+                                    "description": "Name of the Proxmox VE cluster."
+                                },
                                 "dnsServers": {
                                     "type": "array",
                                     "title": "DNS servers",
@@ -1031,6 +1037,12 @@
                                     "items": {
                                         "type": "string"
                                     }
+                                },
+                                "insecure": {
+                                    "type": "boolean",
+                                    "title": "Insecure",
+                                    "description": "Ignore self-signed TLS certificate.",
+                                    "default": false
                                 },
                                 "ipv4Config": {
                                     "type": "object",
