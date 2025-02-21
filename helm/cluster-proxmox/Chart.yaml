@@ -1,5 +1,5 @@
 apiVersion: v2
-version: 0.0.1
+version: 0.1.0
 name: cluster-proxmox
 description: "A helm chart for creating Cluster API clusters with the Proxmox VE provider (CAPMOX)."
 annotations:
@@ -16,7 +16,7 @@ restrictions:
   compatibleProviders:
     - proxmox
 sources:
-- https://github.com/giantswarm/cluster-proxmox
+  - https://github.com/giantswarm/cluster-proxmox
 dependencies:
   - name: cluster
     version: "2.0.1"
