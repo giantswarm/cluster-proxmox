@@ -137,8 +137,8 @@ cluster:
                         [Service]
                         Type=oneshot
                         RemainAfterExit=yes
-                        ExecStart=/usr/sbin/ethtool -K ens192 tx-udp_tnl-csum-segmentation off
-                        ExecStart=/usr/sbin/ethtool -K ens192 tx-udp_tnl-segmentation off
+                        ExecStart=/usr/sbin/ethtool -K eth0 tx-udp_tnl-csum-segmentation off
+                        ExecStart=/usr/sbin/ethtool -K eth0 tx-udp_tnl-segmentation off
                       name: 10-ethtool-segmentation.conf
                   enabled: true
                   name: ethtool-segmentation.service
