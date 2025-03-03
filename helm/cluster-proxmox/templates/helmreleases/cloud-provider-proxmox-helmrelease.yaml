@@ -15,12 +15,12 @@ metadata:
     {{- include "labels.common" . | nindent 4 }}
 spec:
   suspend: false
-  releaseName: cloud-provider-proxmox
+  releaseName: proxmox-cloud-controller-manager
   targetNamespace: kube-system
   storageNamespace: kube-system
   chart:
     spec:
-      chart: cloud-provider-proxmox
+      chart: proxmox-cloud-controller-manager
       {{- $_ := set $ "appName" "cloud-provider-proxmox" }}
       version: {{ include "cluster.app.version" $ }}
       sourceRef:
