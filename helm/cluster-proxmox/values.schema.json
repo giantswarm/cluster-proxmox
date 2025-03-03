@@ -1004,6 +1004,7 @@
                             "description": "Configuration for Proxmox API access.",
                             "required": [
                                 "clusterName",
+                                "cloudControllerManager",
                                 "dnsServers",
                                 "ipv4Config",
                                 "secret",
@@ -1023,6 +1024,26 @@
                                         "type": "string"
                                     },
                                     "default": []
+                                },
+                                "cloudControllerManager": {
+                                    "type": "object",
+                                    "title": "Cloud controller manager",
+                                    "description": "Configuration for the Proxmox cloud-controller-manager.",
+                                    "required": [
+                                        "secret",
+                                        "token"
+                                    ],
+                                        "secret": {
+                                            "type": "string",
+                                            "title": "Secret",
+                                            "description": "Secret associated with the cloud-controller-manager token ID."
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "title": "Token",
+                                            "description": "Token ID for cloud-controller-manager authentication."
+                                        }
+                                    }
                                 },
                                 "clusterName": {
                                     "type": "string",
@@ -1086,12 +1107,12 @@
                                 "secret": {
                                     "type": "string",
                                     "title": "Secret",
-                                    "description": "Secret associated with the token ID."
+                                    "description": "Secret associated with the capmox-controller token ID."
                                 },
                                 "token": {
                                     "type": "string",
                                     "title": "Token",
-                                    "description": "Token ID for authentication."
+                                    "description": "Token ID for capmox-controller authentication."
                                 },
                                 "url": {
                                     "type": "string",

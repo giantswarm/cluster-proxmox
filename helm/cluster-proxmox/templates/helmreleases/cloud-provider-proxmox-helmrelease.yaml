@@ -37,4 +37,12 @@ spec:
     remediation:
       retries: 30
   values:
-    existingConfigSecret: {{ include "resource.default.name" $ }}-proxmox-cloud-provider-config
+    config:
+      features:
+        provider: capmox
+      clusters:
+        - url: {{ include "cloudControllerManagerURL" $ }}
+          insecure: {{ .Values.global.providerSpecific.proxmox.insecure  }}
+          token_id: {{ .Values.global.providerSpecific.proxmox.cloudControllerManager.token | quote }}
+          token_secret: {{ .Values.global.providerSpecific.proxmox.cloudControllerManager.secret | quote }}
+          region: {{ .Values.global.providerSpecific.proxmox.clusterName | quote }}
