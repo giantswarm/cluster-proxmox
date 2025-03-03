@@ -333,7 +333,9 @@
                                                         ],
                                                         "execStart": [
                                                             "/usr/bin/mkdir --parent /run/metadata",
-                                                            "/bin/bash -c 'env > /run/metadata/coreos'"
+                                                            "/bin/bash -c 'env > /run/metadata/coreos'",
+                                                            "/bin/bash -c 'echo \"COREOS_CUSTOM_IPV4=$(grep -o \\'[0-9]\\{1,3\\}\\\\.[0-9]\\{1,3\\}\\\\.[0-9]\\{1,3\\}\\\\.[0-9]\\{1,3\\}\\' /etc/proxmox-env)\" >> /run/metadata/coreos'"
+
                                                         ],
                                                         "remainAfterExit": "yes",
                                                         "restart": "on-failure"
