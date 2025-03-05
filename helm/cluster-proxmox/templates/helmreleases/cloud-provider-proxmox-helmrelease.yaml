@@ -21,7 +21,7 @@ spec:
   chart:
     spec:
       chart: proxmox-cloud-controller-manager
-      {{- $_ := set $ "appName" "cloud-provider-proxmox" }}
+      {{- $_ := set $ "appName" "proxmox-cloud-controller-manager" }}
       version: {{ include "cluster.app.version" $ }}
       sourceRef:
         kind: HelmRepository
