@@ -237,9 +237,9 @@ global:
   providerSpecific:
     proxmox:
       allowedNodes: []
+      cloudControllerManager: {}
       insecure: false
       ipv4Config: {}
-  release: {}
 internal:
   kubectlImage:
     name: giantswarm/kubectl
