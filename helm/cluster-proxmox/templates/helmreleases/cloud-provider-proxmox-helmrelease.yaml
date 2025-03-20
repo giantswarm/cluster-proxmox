@@ -14,14 +14,14 @@ metadata:
     giantswarm.io/service-priority: "{{ .Values.global.metadata.servicePriority }}"
     {{- include "labels.common" . | nindent 4 }}
 spec:
-  suspend: {{ include "isIpamSvcLoadBalancerEnabled" $ }} # It is unsuspended by the post-install/post-upgrade hook.
-  releaseName: cloud-provider-proxmox
+  suspend: false
+  releaseName: proxmox-cloud-controller-manager
   targetNamespace: kube-system
   storageNamespace: kube-system
   chart:
     spec:
-      chart: cloud-provider-proxmox
-      {{- $_ := set $ "appName" "cloud-provider-proxmox" }}
+      chart: proxmox-cloud-controller-manager
+      {{- $_ := set $ "appName" "proxmox-cloud-controller-manager" }}
       version: {{ include "cluster.app.version" $ }}
       sourceRef:
         kind: HelmRepository
@@ -37,4 +37,12 @@ spec:
     remediation:
       retries: 30
   values:
-    existingConfigSecret: {{ include "resource.default.name" $ }}-proxmox-cloud-provider-config
+    config:
+      features:
+        provider: capmox
+      clusters:
+        - url: {{ include "cloudControllerManagerURL" $ }}
+          insecure: {{ .Values.global.providerSpecific.proxmox.insecure  }}
+          token_id: {{ .Values.global.providerSpecific.proxmox.cloudControllerManager.token | quote }}
+          token_secret: {{ .Values.global.providerSpecific.proxmox.cloudControllerManager.secret | quote }}
+          region: {{ .Values.global.providerSpecific.proxmox.clusterName | quote }}

@@ -82,3 +82,10 @@ clusters:
   token_secret: {{ .Values.global.providerSpecific.proxmox.secret | quote }}
   region: {{ .Values.global.providerSpecific.proxmox.clusterName | quote }}
 {{ end -}}
+
+{{- define "securityContext.runAsUser" -}}
+1000
+{{- end -}}
+{{- define "securityContext.runAsGroup" -}}
+1000
+{{- end -}}

@@ -333,7 +333,8 @@
                                                         ],
                                                         "execStart": [
                                                             "/usr/bin/mkdir --parent /run/metadata",
-                                                            "/bin/bash -c 'env > /run/metadata/coreos'"
+                                                            "/bin/bash -c 'env > /run/metadata/coreos'",
+                                                            "/bin/bash -c 'echo \"COREOS_CUSTOM_IPV4=$(grep -o \\'[0-9]\\{1,3\\}\\\\.[0-9]\\{1,3\\}\\\\.[0-9]\\{1,3\\}\\\\.[0-9]\\{1,3\\}\\' /etc/proxmox-env)\" >> /run/metadata/coreos'"
                                                         ],
                                                         "remainAfterExit": "yes",
                                                         "restart": "on-failure"
@@ -385,7 +386,7 @@
                                                 },
                                                 "dropins": [
                                                     {
-                                                        "contents": "[Unit]\nAfter=network.target\n[Service]\nType=oneshot\nRemainAfterExit=yes\nExecStart=/usr/sbin/ethtool -K ens192 tx-udp_tnl-csum-segmentation off\nExecStart=/usr/sbin/ethtool -K ens192 tx-udp_tnl-segmentation off",
+                                                        "contents": "[Unit]\nAfter=network.target\n[Service]\nType=oneshot\nRemainAfterExit=yes\nExecStart=/usr/sbin/ethtool -K eth0 tx-udp_tnl-csum-segmentation off\nExecStart=/usr/sbin/ethtool -K eth0 tx-udp_tnl-segmentation off",
                                                         "name": "10-ethtool-segmentation.conf"
                                                     }
                                                 ],
@@ -1002,6 +1003,7 @@
                             "description": "Configuration for Proxmox API access.",
                             "required": [
                                 "clusterName",
+                                "cloudControllerManager",
                                 "dnsServers",
                                 "ipv4Config",
                                 "secret",
@@ -1021,6 +1023,27 @@
                                         "type": "string"
                                     },
                                     "default": []
+                                },
+                                "cloudControllerManager": {
+                                    "type": "object",
+                                    "title": "Cloud controller manager",
+                                    "description": "Configuration for the Proxmox cloud-controller-manager.",
+                                    "required": [
+                                        "secret",
+                                        "token"
+                                    ],
+                                    "properties": {
+                                        "secret": {
+                                            "type": "string",
+                                            "title": "Secret",
+                                            "description": "Secret associated with the cloud-controller-manager token ID."
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "title": "Token",
+                                            "description": "Token ID for cloud-controller-manager authentication."
+                                        }
+                                    }
                                 },
                                 "clusterName": {
                                     "type": "string",
@@ -1084,12 +1107,12 @@
                                 "secret": {
                                     "type": "string",
                                     "title": "Secret",
-                                    "description": "Secret associated with the token ID."
+                                    "description": "Secret associated with the capmox-controller token ID."
                                 },
                                 "token": {
                                     "type": "string",
                                     "title": "Token",
-                                    "description": "Token ID for authentication."
+                                    "description": "Token ID for capmox-controller authentication."
                                 },
                                 "url": {
                                     "type": "string",
@@ -1099,19 +1122,19 @@
                             }
                         }
                     }
-                },
-                "release": {
-                    "type": "object",
-                    "title": "Release",
-                    "description": "Information about the workload cluster release.",
-                    "required": [
-                        "version"
-                    ],
-                    "properties": {
-                        "version": {
-                            "type": "string",
-                            "title": "Version"
-                        }
+                }
+            },
+            "release": {
+                "type": "object",
+                "title": "Release",
+                "description": "Information about the workload cluster release.",
+                "required": [
+                    "version"
+                ],
+                "properties": {
+                    "version": {
+                        "type": "string",
+                        "title": "Version"
                     }
                 }
             }

@@ -92,6 +92,7 @@ cluster:
                       execStart:
                         - /usr/bin/mkdir --parent /run/metadata
                         - /bin/bash -c 'env > /run/metadata/coreos'
+                        - /bin/bash -c 'echo "COREOS_CUSTOM_IPV4=$(grep -o \'[0-9]\{1,3\}\\.[0-9]\{1,3\}\\.[0-9]\{1,3\}\\.[0-9]\{1,3\}\' /etc/proxmox-env)" >> /run/metadata/coreos'
                       remainAfterExit: "yes"
                       restart: on-failure
                       type: oneshot
@@ -137,8 +138,8 @@ cluster:
                         [Service]
                         Type=oneshot
                         RemainAfterExit=yes
-                        ExecStart=/usr/sbin/ethtool -K ens192 tx-udp_tnl-csum-segmentation off
-                        ExecStart=/usr/sbin/ethtool -K ens192 tx-udp_tnl-segmentation off
+                        ExecStart=/usr/sbin/ethtool -K eth0 tx-udp_tnl-csum-segmentation off
+                        ExecStart=/usr/sbin/ethtool -K eth0 tx-udp_tnl-segmentation off
                       name: 10-ethtool-segmentation.conf
                   enabled: true
                   name: ethtool-segmentation.service
@@ -236,9 +237,9 @@ global:
   providerSpecific:
     proxmox:
       allowedNodes: []
+      cloudControllerManager: {}
       insecure: false
       ipv4Config: {}
-  release: {}
 internal:
   kubectlImage:
     name: giantswarm/kubectl

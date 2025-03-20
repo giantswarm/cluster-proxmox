@@ -14,7 +14,7 @@ metadata:
     giantswarm.io/service-priority: "{{ .Values.global.metadata.servicePriority }}"
     {{- include "labels.common" . | nindent 4 }}
 spec:
-  suspend: {{ include "isIpamSvcLoadBalancerEnabled" $ }} # It is unsuspended by the post-install/post-upgrade hook.
+  suspend: false
   releaseName: kube-vip
   targetNamespace: kube-system
   storageNamespace: kube-system

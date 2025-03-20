@@ -143,11 +143,11 @@ spec:
                 count=$((count+1))
               done
 
-              # patch the cloud-provider-proxmox-helmrelease
+              # patch the kube-vip-cloud-provider-helmrelease
               {{- if .Values.global.connectivity.network.loadBalancers.cidrBlocks }}
               ip_list="${ip_list},{{ join "," .Values.global.connectivity.network.loadBalancers.cidrBlocks }}"
               {{- end }}
-              kubectl patch helmrelease -n {{ $.Release.Namespace }} {{ include "resource.default.name" $ }}-cloud-provider-vsphere --type=merge -p '{"spec":{"suspend":false,"values":{"kube-vip-cloud-provider": {"cidrGlobal": "'${ip_list}'"}}}}'
+              kubectl patch helmrelease -n {{ $.Release.Namespace }} {{ include "resource.default.name" $ }}-kube-vip-cloud-provider --type=merge -p '{"spec":{"suspend":false,"values":{"cm":{"data":{"cidr-global":"'${ip_list}'"}}}}}'
 {{- end }}
       containers:
         - name: resume-cluster

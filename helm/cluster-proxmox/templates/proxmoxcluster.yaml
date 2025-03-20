@@ -14,7 +14,12 @@ spec:
   {{- end }}
   {{- end }}
   controlPlaneEndpoint:
-    host: '{{ ((.Values.global.connectivity.network).controlPlaneEndpoint).host }}'
+    # The ProxmoxCluster cannot be created without a valid host address (it gets rejected by the CAPMOX
+    # admission webhook), but if we want to dynamically allocate the host address using IPAM then we cannot
+    # know it ahead of time and so we have a chicken and egg problem. To work around this, we default to a
+    # dummy value here (which only gets used if an IP hasn't been set in the chart's values, and then we
+    # patch the ProxmoxCluster with the correct value via the IPAM update-values Job.
+    host: '{{ ((.Values.global.connectivity.network).controlPlaneEndpoint).host | default "10.0.0.1" }}'
     port: {{ ((.Values.global.connectivity.network).controlPlaneEndpoint).port | default 6443 }}
   dnsServers:
   {{- range $server := .Values.global.providerSpecific.proxmox.dnsServers }}
