@@ -59,6 +59,9 @@ global:
       allowedNodes:
         - "node1"
         - "node2"
+      cloudControllerManager:
+        secret: "secretstring"
+        token: "tokenstring"
       clusterName: "pve"
       dnsServers:
         - "1.1.1.1"
