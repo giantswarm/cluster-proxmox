@@ -32,7 +32,7 @@ stringData:
           value: "true"
         - name: vip_address
           value: {{ .Values.global.connectivity.network.controlPlaneEndpoint.host }}
-        - name: vip_cidr
+        - name: vip_subnet
           value: "32"
         - name: vip_interface
           value: eth0
