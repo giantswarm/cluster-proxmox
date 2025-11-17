@@ -1,4 +1,5 @@
 global:
+  managementCluster: test-mc
   connectivity:
     baseDomain: k8s.test
     network:
@@ -77,3 +78,9 @@ global:
       url: "https://proxmox.example.com:8006/api2/json"
   release:
     version: v28.0.0
+
+cluster:
+  internal:
+    ephemeralConfiguration:
+      offlineTesting:
+        renderWithoutReleaseResource: true
