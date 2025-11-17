@@ -3,8 +3,6 @@
 cluster:
   providerIntegration:
     apps:
-      capiNodeLabeler:
-        enable: true
       certExporter:
         configTemplateName: proxmoxCertExporterHelmValues
         enable: true
@@ -208,6 +206,9 @@ global:
     proxy: {}
   controlPlane:
     machineHealthCheck:
+      diskFullContainerdTimeout: ""
+      diskFullKubeletTimeout: ""
+      diskFullVarLogTimeout: ""
       enabled: true
       maxUnhealthy: 40%
       nodeStartupTimeout: 20m0s
@@ -229,6 +230,15 @@ global:
       disks:
         bootVolume: {}
       format: raw
+      machineHealthCheck:
+        diskFullContainerdTimeout: ""
+        diskFullKubeletTimeout: ""
+        diskFullVarLogTimeout: ""
+        enabled: true
+        maxUnhealthy: 40%
+        nodeStartupTimeout: 20m0s
+        unhealthyNotReadyTimeout: 10m0s
+        unhealthyUnknownTimeout: 10m0s
       network:
         default: {}
       vmIDRange: {}
