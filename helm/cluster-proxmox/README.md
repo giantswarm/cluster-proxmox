@@ -63,11 +63,14 @@ Properties within the `.global.controlPlane` object
 | **Property** | **Description** | **More Details** |
 | :----------- | :-------------- | :--------------- |
 | `global.controlPlane.machineHealthCheck` | **Machine health check**|**Type:** `[object]`<br/>|
-| `global.controlPlane.machineHealthCheck.enabled` | **Enabled** - Enable machine health checks.|**Type:** `[boolean]`<br/>**Default:** `true`|
-| `global.controlPlane.machineHealthCheck.maxUnhealthy` | **Max unhealthy** - Maximum number or percentage of unhealthy nodes.|**Type:** `[string]`<br/>**Default:** `"40%"`|
-| `global.controlPlane.machineHealthCheck.nodeStartupTimeout` | **Node startup timeout** - Time to wait for a node to become healthy.|**Type:** `[string]`<br/>**Default:** `"20m0s"`|
-| `global.controlPlane.machineHealthCheck.unhealthyNotReadyTimeout` | **Unhealthy not ready timeout** - Time to wait for a node to become ready.|**Type:** `[string]`<br/>**Default:** `"10m0s"`|
-| `global.controlPlane.machineHealthCheck.unhealthyUnknownTimeout` | **Unhealthy unknown timeout** - Time to wait for a node to become known.|**Type:** `[string]`<br/>**Default:** `"10m0s"`|
+| `global.controlPlane.machineHealthCheck.diskFullContainerdTimeout` | **DiskFullContainerd timeout** - Determines how long a machine health check should wait for a node with condition DiskFullContainerd=True before considering a machine unhealthy. Use an empty value to not consider this condition.|**Type:** `[string]`<br/>**Examples:** `"10m", "100s"`<br/>**Default:** `""`|
+| `global.controlPlane.machineHealthCheck.diskFullKubeletTimeout` | **DiskFullKubelet timeout** - Determines how long a machine health check should wait for a node with condition DiskFullKubelet=True before considering a machine unhealthy. Use an empty value to not consider this condition.|**Type:** `[string]`<br/>**Examples:** `"10m", "100s"`<br/>**Default:** `""`|
+| `global.controlPlane.machineHealthCheck.diskFullVarLogTimeout` | **DiskFullVarLog timeout** - Determines how long a machine health check should wait for a node with condition DiskFullVarLog=True before considering a machine unhealthy. Use an empty value to not consider this condition.|**Type:** `[string]`<br/>**Examples:** `"10m", "100s"`<br/>**Default:** `""`|
+| `global.controlPlane.machineHealthCheck.enabled` | **Enable**|**Type:** `[boolean]`<br/>**Default:** `true`|
+| `global.controlPlane.machineHealthCheck.maxUnhealthy` | **Maximum unhealthy nodes** - Defaults to 40% for control plane nodes and 20% for worker nodes.|**Type:** `[string]`<br/>**Example:** `"40%"`<br/>**Default:** `"40%"`|
+| `global.controlPlane.machineHealthCheck.nodeStartupTimeout` | **Node startup timeout** - Determines how long a machine health check should wait for a node to join the cluster, before considering a machine unhealthy.|**Type:** `[string]`<br/>**Examples:** `"10m", "100s"`<br/>**Default:** `"20m0s"`|
+| `global.controlPlane.machineHealthCheck.unhealthyNotReadyTimeout` | **Timeout for ready** - If a node is not in condition 'Ready' after this timeout, it will be considered unhealthy.|**Type:** `[string]`<br/>**Example:** `"300s"`<br/>**Default:** `"10m0s"`|
+| `global.controlPlane.machineHealthCheck.unhealthyUnknownTimeout` | **Timeout for unknown condition** - If a node is in 'Unknown' condition after this timeout, it will be considered unhealthy.|**Type:** `[string]`<br/>**Example:** `"300s"`<br/>**Default:** `"10m0s"`|
 | `global.controlPlane.machineTemplate` | **Template to define control plane nodes**|**Type:** `[object]`<br/>|
 | `global.controlPlane.machineTemplate.description` |Description for the VMs.|**Type:** `[string]`<br/>|
 | `global.controlPlane.machineTemplate.disks` | **VM disk configuration**|**Type:** `[object]`<br/>|
@@ -126,6 +129,15 @@ Groups of worker nodes with identical configuration.
 | `global.nodePools.worker.disks.bootVolume.disk` | **Disk name** - Name of the boot disk to be resized.|**Type:** `[string]`<br/>|
 | `global.nodePools.worker.disks.bootVolume.sizeGb` | **Disk size** - Target size in GB. Must be larger than template disk size.|**Type:** `[integer]`<br/>|
 | `global.nodePools.worker.format` |Format of the cloned disk.|**Type:** `[string]`<br/>**Default:** `"raw"`|
+| `global.nodePools.worker.machineHealthCheck` | **Machine health check**|**Type:** `[object]`<br/>|
+| `global.nodePools.worker.machineHealthCheck.diskFullContainerdTimeout` | **DiskFullContainerd timeout** - Determines how long a machine health check should wait for a node with condition DiskFullContainerd=True before considering a machine unhealthy. Use an empty value to not consider this condition.|**Type:** `[string]`<br/>**Examples:** `"10m", "100s"`<br/>**Default:** `""`|
+| `global.nodePools.worker.machineHealthCheck.diskFullKubeletTimeout` | **DiskFullKubelet timeout** - Determines how long a machine health check should wait for a node with condition DiskFullKubelet=True before considering a machine unhealthy. Use an empty value to not consider this condition.|**Type:** `[string]`<br/>**Examples:** `"10m", "100s"`<br/>**Default:** `""`|
+| `global.nodePools.worker.machineHealthCheck.diskFullVarLogTimeout` | **DiskFullVarLog timeout** - Determines how long a machine health check should wait for a node with condition DiskFullVarLog=True before considering a machine unhealthy. Use an empty value to not consider this condition.|**Type:** `[string]`<br/>**Examples:** `"10m", "100s"`<br/>**Default:** `""`|
+| `global.nodePools.worker.machineHealthCheck.enabled` | **Enable**|**Type:** `[boolean]`<br/>**Default:** `true`|
+| `global.nodePools.worker.machineHealthCheck.maxUnhealthy` | **Maximum unhealthy nodes** - Defaults to 40% for control plane nodes and 20% for worker nodes.|**Type:** `[string]`<br/>**Example:** `"40%"`<br/>**Default:** `"40%"`|
+| `global.nodePools.worker.machineHealthCheck.nodeStartupTimeout` | **Node startup timeout** - Determines how long a machine health check should wait for a node to join the cluster, before considering a machine unhealthy.|**Type:** `[string]`<br/>**Examples:** `"10m", "100s"`<br/>**Default:** `"20m0s"`|
+| `global.nodePools.worker.machineHealthCheck.unhealthyNotReadyTimeout` | **Timeout for ready** - If a node is not in condition 'Ready' after this timeout, it will be considered unhealthy.|**Type:** `[string]`<br/>**Example:** `"300s"`<br/>**Default:** `"10m0s"`|
+| `global.nodePools.worker.machineHealthCheck.unhealthyUnknownTimeout` | **Timeout for unknown condition** - If a node is in 'Unknown' condition after this timeout, it will be considered unhealthy.|**Type:** `[string]`<br/>**Example:** `"300s"`<br/>**Default:** `"10m0s"`|
 | `global.nodePools.worker.memoryMiB` |Memory size in MiB|**Type:** `[integer]`<br/>**Example:** `8192`<br/>|
 | `global.nodePools.worker.network` | **Network interface configuration**|**Type:** `[object]`<br/>|
 | `global.nodePools.worker.network.default` | **Default network interface configuration**|**Type:** `[object]`<br/>|
