@@ -248,9 +248,6 @@
             "default": {
                 "providerIntegration": {
                     "apps": {
-                        "capiNodeLabeler": {
-                            "enable": true
-                        },
                         "certExporter": {
                             "configTemplateName": "proxmoxCertExporterHelmValues",
                             "enable": true
@@ -961,14 +958,14 @@
                                         }
                                     }
                                 },
-                                "machineHealthCheck": {
-                                    "$ref": "#/$defs/machineHealthCheck",
-                                    "description": "Machine health check configuration for worker nodes."
-                                },
                                 "format": {
                                     "$ref": "#/$defs/diskFormat",
                                     "title": "Disk format",
                                     "description": "Format of the cloned disk."
+                                },
+                                "machineHealthCheck": {
+                                    "$ref": "#/$defs/machineHealthCheck",
+                                    "description": "Machine health check configuration for worker nodes."
                                 },
                                 "memoryMiB": {
                                     "$ref": "#/$defs/memoryMiB",
