@@ -828,7 +828,6 @@
                         "oidc": {
                             "type": "object",
                             "title": "OIDC authentication",
-                            "additionalProperties": false,
                             "properties": {
                                 "caPem": {
                                     "type": "string",
