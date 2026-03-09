@@ -265,6 +265,9 @@
                         "coreDns": {
                             "enable": true
                         },
+                        "etcdDefrag": {
+                            "enable": true
+                        },
                         "etcdKubernetesResourcesCountExporter": {
                             "enable": true
                         },
@@ -285,10 +288,19 @@
                             "configTemplateName": "proxmoxNodeExporterHelmValues",
                             "enable": true
                         },
+                        "nodeProblemDetector": {
+                            "enable": false
+                        },
                         "observabilityBundle": {
                             "enable": true
                         },
                         "observabilityPolicies": {
+                            "enable": true
+                        },
+                        "priorityClasses": {
+                            "enable": true
+                        },
+                        "rbacBootstrap": {
                             "enable": true
                         },
                         "securityBundle": {
@@ -319,7 +331,7 @@
                                     "permissions": "0600"
                                 }
                             ],
-                            "postKubeadmCommands": [
+                             "postKubeadmCommands": [
                                 "sed --in-place \"s|/etc/kubernetes/super-admin.conf|/etc/kubernetes/admin.conf|g\" /etc/kubernetes/manifests/kube-vip.yaml"
                             ]
                         },
