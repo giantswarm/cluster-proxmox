@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Use tags instead of template ID to select flatcar template.
+
 ### Fixed
 
 - Correct kube-vip static pod manifest to align with 0.9.0 release.

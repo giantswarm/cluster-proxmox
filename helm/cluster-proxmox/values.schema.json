@@ -200,10 +200,6 @@
             "type": "string",
             "description": "Name of the storage for the cloned disk."
         },
-        "templateID": {
-            "type": "integer",
-            "description": "ID of the VM template to clone."
-        },
         "vmDescription": {
             "type": "string",
             "description": "Description for the VMs."
@@ -488,8 +484,7 @@
                                 },
                                 "numCores": 1,
                                 "numSockets": 1,
-                                "sourceNode": "pve",
-                                "templateID": 100
+                                "sourceNode": "pve"
                             }
                         },
                         "resources": {
@@ -748,8 +743,7 @@
                             "required": [
                                 "disks",
                                 "network",
-                                "sourceNode",
-                                "templateID"
+                                "sourceNode"
                             ],
                             "additionalProperties": true,
                             "properties": {
@@ -812,11 +806,6 @@
                                     "$ref": "#/$defs/storage",
                                     "title": "Storage name",
                                     "description": "Name of the storage for the cloned disk."
-                                },
-                                "templateID": {
-                                    "$ref": "#/$defs/templateID",
-                                    "title": "Template ID",
-                                    "description": "ID of the VM template to clone."
                                 },
                                 "vmIDRange": {
                                     "$ref": "#/$defs/vmIDRange",
@@ -937,8 +926,7 @@
                             "required": [
                                 "network",
                                 "replicas",
-                                "sourceNode",
-                                "templateID"
+                                "sourceNode"
                             ],
                             "additionalProperties": true,
                             "properties": {
@@ -1010,11 +998,6 @@
                                     "$ref": "#/$defs/storage",
                                     "title": "Storage name",
                                     "description": "Name of the storage for the cloned disk."
-                                },
-                                "templateID": {
-                                    "$ref": "#/$defs/templateID",
-                                    "title": "Template ID",
-                                    "description": "ID of the VM template to clone."
                                 },
                                 "vmIDRange": {
                                     "$ref": "#/$defs/vmIDRange",
