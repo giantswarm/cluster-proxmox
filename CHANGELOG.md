@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Use tags instead of template ID to select flatcar template.
+- General all-round updates to align with other provider charts.
 
 ### Fixed
 
