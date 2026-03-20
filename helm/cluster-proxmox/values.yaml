@@ -187,7 +187,6 @@ cluster:
               bridge: vmbr0
           numCores: 1
           numSockets: 1
-          sourceNode: pve
       resources:
         infrastructureMachineTemplateSpecTemplateName: worker-proxmoxmachinetemplate-spec
 global:

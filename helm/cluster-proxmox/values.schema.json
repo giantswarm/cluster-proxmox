@@ -192,10 +192,6 @@
             ],
             "minimum": 1
         },
-        "sourceNode": {
-            "type": "string",
-            "description": "Name of the initial node to operate against."
-        },
         "storage": {
             "type": "string",
             "description": "Name of the storage for the cloned disk."
@@ -331,7 +327,7 @@
                                     "permissions": "0600"
                                 }
                             ],
-                             "postKubeadmCommands": [
+                            "postKubeadmCommands": [
                                 "sed --in-place \"s|/etc/kubernetes/super-admin.conf|/etc/kubernetes/admin.conf|g\" /etc/kubernetes/manifests/kube-vip.yaml"
                             ]
                         },
@@ -495,8 +491,7 @@
                                     }
                                 },
                                 "numCores": 1,
-                                "numSockets": 1,
-                                "sourceNode": "pve"
+                                "numSockets": 1
                             }
                         },
                         "resources": {
@@ -754,8 +749,7 @@
                             "title": "Template to define control plane nodes",
                             "required": [
                                 "disks",
-                                "network",
-                                "sourceNode"
+                                "network"
                             ],
                             "additionalProperties": true,
                             "properties": {
@@ -808,11 +802,6 @@
                                     "$ref": "#/$defs/pool",
                                     "title": "Resource pool",
                                     "description": "Name of the resource pool to add VMs to."
-                                },
-                                "sourceNode": {
-                                    "$ref": "#/$defs/sourceNode",
-                                    "title": "Source node",
-                                    "description": "Name of the initial node to operate against."
                                 },
                                 "storage": {
                                     "$ref": "#/$defs/storage",
@@ -937,8 +926,7 @@
                             "title": "Default nodePool",
                             "required": [
                                 "network",
-                                "replicas",
-                                "sourceNode"
+                                "replicas"
                             ],
                             "additionalProperties": true,
                             "properties": {
@@ -1000,11 +988,6 @@
                                     "$ref": "#/$defs/replicas",
                                     "title": "Replicas",
                                     "description": "Replica count."
-                                },
-                                "sourceNode": {
-                                    "$ref": "#/$defs/sourceNode",
-                                    "title": "Source node",
-                                    "description": "Name of the initial node to operate against."
                                 },
                                 "storage": {
                                     "$ref": "#/$defs/storage",
