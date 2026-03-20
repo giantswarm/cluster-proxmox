@@ -36,3 +36,6 @@ spec:
   install:
     remediation:
       retries: 30
+  values:
+    env:
+      vip_interface: "eth0"
