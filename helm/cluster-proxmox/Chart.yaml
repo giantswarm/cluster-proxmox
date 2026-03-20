@@ -4,8 +4,9 @@ name: cluster-proxmox
 description: "A helm chart for creating Cluster API clusters with the Proxmox VE provider (CAPMOX)."
 annotations:
   application.giantswarm.io/team: rocket
+  io.giantswarm.application.team: rocket
 home: https://github.com/giantswarm/cluster-proxmox
-icon: https://s.giantswarm.io/app-icons/example/1/light.svg
+icon: https://s.giantswarm.io/app-icons/proxmox/1/dark.png
 keywords:
   - capmox
   - proxmox
