@@ -192,17 +192,9 @@
             ],
             "minimum": 1
         },
-        "sourceNode": {
-            "type": "string",
-            "description": "Name of the initial node to operate against."
-        },
         "storage": {
             "type": "string",
             "description": "Name of the storage for the cloned disk."
-        },
-        "templateID": {
-            "type": "integer",
-            "description": "ID of the VM template to clone."
         },
         "vmDescription": {
             "type": "string",
@@ -269,6 +261,9 @@
                         "coreDns": {
                             "enable": true
                         },
+                        "etcdDefrag": {
+                            "enable": true
+                        },
                         "etcdKubernetesResourcesCountExporter": {
                             "enable": true
                         },
@@ -289,10 +284,19 @@
                             "configTemplateName": "proxmoxNodeExporterHelmValues",
                             "enable": true
                         },
+                        "nodeProblemDetector": {
+                            "enable": false
+                        },
                         "observabilityBundle": {
                             "enable": true
                         },
                         "observabilityPolicies": {
+                            "enable": true
+                        },
+                        "priorityClasses": {
+                            "enable": true
+                        },
+                        "rbacBootstrap": {
                             "enable": true
                         },
                         "securityBundle": {
@@ -487,9 +491,7 @@
                                     }
                                 },
                                 "numCores": 1,
-                                "numSockets": 1,
-                                "sourceNode": "pve",
-                                "templateID": 100
+                                "numSockets": 1
                             }
                         },
                         "resources": {
@@ -747,9 +749,7 @@
                             "title": "Template to define control plane nodes",
                             "required": [
                                 "disks",
-                                "network",
-                                "sourceNode",
-                                "templateID"
+                                "network"
                             ],
                             "additionalProperties": true,
                             "properties": {
@@ -803,20 +803,10 @@
                                     "title": "Resource pool",
                                     "description": "Name of the resource pool to add VMs to."
                                 },
-                                "sourceNode": {
-                                    "$ref": "#/$defs/sourceNode",
-                                    "title": "Source node",
-                                    "description": "Name of the initial node to operate against."
-                                },
                                 "storage": {
                                     "$ref": "#/$defs/storage",
                                     "title": "Storage name",
                                     "description": "Name of the storage for the cloned disk."
-                                },
-                                "templateID": {
-                                    "$ref": "#/$defs/templateID",
-                                    "title": "Template ID",
-                                    "description": "ID of the VM template to clone."
                                 },
                                 "vmIDRange": {
                                     "$ref": "#/$defs/vmIDRange",
@@ -828,7 +818,6 @@
                         "oidc": {
                             "type": "object",
                             "title": "OIDC authentication",
-                            "additionalProperties": false,
                             "properties": {
                                 "caPem": {
                                     "type": "string",
@@ -937,9 +926,7 @@
                             "title": "Default nodePool",
                             "required": [
                                 "network",
-                                "replicas",
-                                "sourceNode",
-                                "templateID"
+                                "replicas"
                             ],
                             "additionalProperties": true,
                             "properties": {
@@ -1002,20 +989,10 @@
                                     "title": "Replicas",
                                     "description": "Replica count."
                                 },
-                                "sourceNode": {
-                                    "$ref": "#/$defs/sourceNode",
-                                    "title": "Source node",
-                                    "description": "Name of the initial node to operate against."
-                                },
                                 "storage": {
                                     "$ref": "#/$defs/storage",
                                     "title": "Storage name",
                                     "description": "Name of the storage for the cloned disk."
-                                },
-                                "templateID": {
-                                    "$ref": "#/$defs/templateID",
-                                    "title": "Template ID",
-                                    "description": "ID of the VM template to clone."
                                 },
                                 "vmIDRange": {
                                     "$ref": "#/$defs/vmIDRange",

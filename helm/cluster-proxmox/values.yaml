@@ -18,6 +18,8 @@ cluster:
         enable: true
       coreDns:
         enable: true
+      etcdDefrag:
+        enable: true
       etcdKubernetesResourcesCountExporter:
         enable: true
       k8sDnsNodeCache:
@@ -32,9 +34,15 @@ cluster:
       nodeExporter:
         configTemplateName: proxmoxNodeExporterHelmValues
         enable: true
+      nodeProblemDetector:
+        enable: false
       observabilityBundle:
         enable: true
       observabilityPolicies:
+        enable: true
+      priorityClasses:
+        enable: true
+      rbacBootstrap:
         enable: true
       securityBundle:
         enable: true
@@ -179,8 +187,6 @@ cluster:
               bridge: vmbr0
           numCores: 1
           numSockets: 1
-          sourceNode: pve
-          templateID: 100
       resources:
         infrastructureMachineTemplateSpecTemplateName: worker-proxmoxmachinetemplate-spec
 global:
