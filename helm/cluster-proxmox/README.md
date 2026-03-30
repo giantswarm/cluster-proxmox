@@ -4,16 +4,6 @@ This page lists all available configuration options, based on the [configuration
 
 <!-- DOCS_START -->
 
-### 
-Properties within the `.internal` top-level object
-
-| **Property** | **Description** | **More Details** |
-| :----------- | :-------------- | :--------------- |
-| `internal.kubectlImage` | **Kubectl image** - Used by cluster-shared library chart to configure coredns in-cluster.|**Type:** `object`<br/>|
-| `internal.kubectlImage.name` | **Repository**|**Type:** `string`<br/>**Default:** `"giantswarm/kubectl"`|
-| `internal.kubectlImage.registry` | **Registry**|**Type:** `string`<br/>**Default:** `"gsoci.azurecr.io"`|
-| `internal.kubectlImage.tag` | **Tag**|**Type:** `string`<br/>**Default:** `"1.29.9"`|
-
 ### Connectivity
 Properties within the `.global.connectivity` object
 Configurations related to cluster connectivity such as container registries.
@@ -188,6 +178,16 @@ Properties within the `.global.providerSpecific` object
 | `global.providerSpecific.proxmox.secret` | **Secret** - Secret associated with the capmox-controller token ID.|**Type:** `string`<br/>|
 | `global.providerSpecific.proxmox.token` | **Token** - Token ID for capmox-controller authentication.|**Type:** `string`<br/>|
 | `global.providerSpecific.proxmox.url` | **URL** - Proxmox VE API URL.|**Type:** `string`<br/>|
+
+### internal
+Properties within the `.internal` top-level object
+
+| **Property** | **Description** | **More Details** |
+| :----------- | :-------------- | :--------------- |
+| `internal.kubectlImage` | **Kubectl image** - Used by cluster-shared library chart to configure coredns in-cluster.|**Type:** `object`<br/>|
+| `internal.kubectlImage.name` | **Repository**|**Type:** `string`<br/>**Default:** `"giantswarm/kubectl"`|
+| `internal.kubectlImage.registry` | **Registry**|**Type:** `string`<br/>**Default:** `"gsoci.azurecr.io"`|
+| `internal.kubectlImage.tag` | **Tag**|**Type:** `string`<br/>**Default:** `"1.29.9"`|
 
 ### Other
 
