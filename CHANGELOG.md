@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Use tags instead of template ID to select flatcar template.
 - General all-round updates to align with other provider charts.
+- Update `giantswarm/cluster` to v6.1.0.
 
 ### Fixed
 
