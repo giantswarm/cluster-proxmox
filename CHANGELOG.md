@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Set CCM network mode to `auto` to collect node IP from both qemu and kubelet flags.
+
 ## [1.0.0] - 2026-03-30
 
 ### Changed

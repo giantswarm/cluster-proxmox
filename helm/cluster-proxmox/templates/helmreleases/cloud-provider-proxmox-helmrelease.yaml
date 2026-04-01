@@ -40,6 +40,8 @@ spec:
     config:
       features:
         provider: capmox
+        network:
+          mode: auto
       clusters:
         - url: {{ include "cloudControllerManagerURL" $ }}
           insecure: {{ .Values.global.providerSpecific.proxmox.insecure  }}
