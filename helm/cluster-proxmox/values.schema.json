@@ -30,41 +30,6 @@
             },
             "minItems": 1
         },
-        "defaultNetwork": {
-            "type": "object",
-            "title": "Default network interface configuration",
-            "additionalProperties": false,
-            "properties": {
-                "bridge": {
-                    "type": "string",
-                    "title": "Bridge name",
-                    "description": "Name of network bridge to attach interface to."
-                },
-                "model": {
-                    "type": "string",
-                    "title": "Device model",
-                    "description": "Network device model.",
-                    "enum": [
-                        "e1000",
-                        "virtio",
-                        "rtl8139",
-                        "vmxnet3"
-                    ]
-                },
-                "mtu": {
-                    "type": "integer",
-                    "title": "MTU",
-                    "description": "Network device MTU. If set to '1', virtio devices inherit MTU from the attached bridge."
-                },
-                "vlan": {
-                    "type": "integer",
-                    "title": "VLAN ID",
-                    "description": "VLAN ID to tag interface with.",
-                    "maximum": 4094,
-                    "minimum": 1
-                }
-            }
-        },
         "diskFormat": {
             "type": "string",
             "description": "Format of the cloned disk.",
@@ -74,6 +39,28 @@
                 "vmdk"
             ],
             "default": "raw"
+        },
+        "IPPoolRef": {
+            "type": "object",
+            "title": "IPPoolRef",
+            "description": "IP Pool to allocation interface IP from.",
+            "required": [
+                "apiGroup",
+                "kind",
+                "name"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "apiGroup": {
+                    "type": "string"
+                },
+                "kind": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
         },
         "machineHealthCheck": {
             "type": "object",
@@ -163,6 +150,30 @@
                 8192
             ],
             "minimum": 8192
+        },
+        "networkDevice": {
+            "type": "object",
+            "title": "Network device",
+            "description": "Network device to attach to VM.",
+            "required": [
+                "bridge",
+                "name"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "bridge": {
+                    "type": "string"
+                },
+                "ipPoolRef": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/$defs/IPPoolRef"
+                    }
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
         },
         "numCores": {
             "type": "integer",
@@ -780,11 +791,17 @@
                                 },
                                 "network": {
                                     "type": "object",
-                                    "title": "Network interface configuration",
+                                    "title": "Network",
+                                    "description": "Network interface configuration",
+                                    "required": [
+                                        "networkDevices"
+                                    ],
                                     "properties": {
-                                        "default": {
-                                            "$ref": "#/$defs/defaultNetwork",
-                                            "description": "Default network interface configuration."
+                                        "networkDevices": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/$defs/networkDevice"
+                                            }
                                         }
                                     }
                                 },
@@ -961,11 +978,17 @@
                                 },
                                 "network": {
                                     "type": "object",
-                                    "title": "Network interface configuration",
+                                    "title": "Network",
+                                    "description": "Network interfaces configuration",
+                                    "required": [
+                                        "networkDevices"
+                                    ],
                                     "properties": {
-                                        "default": {
-                                            "$ref": "#/$defs/defaultNetwork",
-                                            "description": "Default network interface configuration."
+                                        "networkDevices": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/$defs/networkDevice"
+                                            }
                                         }
                                     }
                                 },

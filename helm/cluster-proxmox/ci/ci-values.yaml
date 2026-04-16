@@ -17,9 +17,15 @@ global:
           disk: scsi0
           sizeGb: 50
       network:
-        default:
+        networkDevices:
+        - name: net0
           bridge: vmbr0
-          model: virtio
+        - name: net1
+          bridge: vmbr1
+          ipPoolRef:
+          - apiGroup: ipam.cluster.x-k8s.io
+            kind: GlobalInClusterIPPool
+            name: ipv4-pool
       memoryMiB: 8192
       numCores: 2
       numSockets: 2
@@ -42,9 +48,15 @@ global:
           disk: scsi0
           sizeGb: 50
       network:
-        default:
+        networkDevices:
+        - name: net0
           bridge: vmbr0
-          model: virtio
+        - name: net1
+          bridge: vmbr1
+          ipPoolRef:
+          - apiGroup: ipam.cluster.x-k8s.io
+            kind: GlobalInClusterIPPool
+            name: ipv4-pool
       memoryMiB: 8192
       numCores: 2
       numSockets: 2
