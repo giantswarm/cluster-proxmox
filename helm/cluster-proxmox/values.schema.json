@@ -1,6 +1,31 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "$defs": {
+        "IPPoolRef": {
+            "type": "object",
+            "title": "IPPoolRef",
+            "description": "IP Pool to allocation interface IP from.",
+            "required": [
+                "apiGroup",
+                "kind",
+                "name"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "apiGroup": {
+                    "type": "string",
+                    "title": "API group"
+                },
+                "kind": {
+                    "type": "string",
+                    "title": "Resource kind"
+                },
+                "name": {
+                    "type": "string",
+                    "title": "Resource name"
+                }
+            }
+        },
         "bootVolume": {
             "type": "object",
             "title": "Boot volume configuration",
@@ -39,28 +64,6 @@
                 "vmdk"
             ],
             "default": "raw"
-        },
-        "IPPoolRef": {
-            "type": "object",
-            "title": "IPPoolRef",
-            "description": "IP Pool to allocation interface IP from.",
-            "required": [
-                "apiGroup",
-                "kind",
-                "name"
-            ],
-            "additionalProperties": false,
-            "properties": {
-                "apiGroup": {
-                    "type": "string"
-                },
-                "kind": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                }
-            }
         },
         "machineHealthCheck": {
             "type": "object",
@@ -159,19 +162,21 @@
                 "bridge",
                 "name"
             ],
-            "additionalProperties": false,
             "properties": {
                 "bridge": {
-                    "type": "string"
+                    "type": "string",
+                    "title": "Bridge name"
                 },
                 "ipPoolRef": {
                     "type": "array",
+                    "title": "IP pool reference",
                     "items": {
                         "$ref": "#/$defs/IPPoolRef"
                     }
                 },
                 "name": {
-                    "type": "string"
+                    "type": "string",
+                    "title": "Device name"
                 }
             }
         },
@@ -792,13 +797,14 @@
                                 "network": {
                                     "type": "object",
                                     "title": "Network",
-                                    "description": "Network interface configuration",
+                                    "description": "Network interface configuration.",
                                     "required": [
                                         "networkDevices"
                                     ],
                                     "properties": {
                                         "networkDevices": {
                                             "type": "array",
+                                            "title": "Network devices",
                                             "items": {
                                                 "$ref": "#/$defs/networkDevice"
                                             }
@@ -979,13 +985,14 @@
                                 "network": {
                                     "type": "object",
                                     "title": "Network",
-                                    "description": "Network interfaces configuration",
+                                    "description": "Network interfaces configuration.",
                                     "required": [
                                         "networkDevices"
                                     ],
                                     "properties": {
                                         "networkDevices": {
                                             "type": "array",
+                                            "title": "Network devices",
                                             "items": {
                                                 "$ref": "#/$defs/networkDevice"
                                             }
