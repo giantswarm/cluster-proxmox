@@ -69,12 +69,16 @@ Properties within the `.global.controlPlane` object
 | `global.controlPlane.machineTemplate.disks.bootVolume.sizeGb` | **Disk size** - Target size in GB. Must be larger than template disk size.|**Type:** `integer`<br/>|
 | `global.controlPlane.machineTemplate.format` |Format of the cloned disk.|**Type:** `string`<br/>**Allowed values:** `raw`, `qcow2`, `vmdk`<br/>**Default:** `"raw"`|
 | `global.controlPlane.machineTemplate.memoryMiB` |Memory size in MiB|**Type:** `integer`<br/>**Example:** `8192`<br/>|
-| `global.controlPlane.machineTemplate.network` | **Network interface configuration**|**Type:** `object`<br/>|
-| `global.controlPlane.machineTemplate.network.default` | **Default network interface configuration**|**Type:** `object`<br/>|
-| `global.controlPlane.machineTemplate.network.default.bridge` | **Bridge name** - Name of network bridge to attach interface to.|**Type:** `string`<br/>|
-| `global.controlPlane.machineTemplate.network.default.model` | **Device model** - Network device model.|**Type:** `string`<br/>**Allowed values:** `e1000`, `virtio`, `rtl8139`, `vmxnet3`<br/>|
-| `global.controlPlane.machineTemplate.network.default.mtu` | **MTU** - Network device MTU. If set to '1', virtio devices inherit MTU from the attached bridge.|**Type:** `integer`<br/>|
-| `global.controlPlane.machineTemplate.network.default.vlan` | **VLAN ID** - VLAN ID to tag interface with.|**Type:** `integer`<br/>|
+| `global.controlPlane.machineTemplate.network` | **Network** - Network interface configuration.|**Type:** `object`<br/>|
+| `global.controlPlane.machineTemplate.network.networkDevices` | **Network devices**|**Type:** `array`<br/>|
+| `global.controlPlane.machineTemplate.network.networkDevices[*]` | **Network device** - Network device to attach to VM.|**Type:** `object`<br/>|
+| `global.controlPlane.machineTemplate.network.networkDevices[*].bridge` | **Bridge name**|**Type:** `string`<br/>|
+| `global.controlPlane.machineTemplate.network.networkDevices[*].ipPoolRef` | **IP pool reference**|**Type:** `array`<br/>|
+| `global.controlPlane.machineTemplate.network.networkDevices[*].ipPoolRef[*]` | **IPPoolRef** - IP Pool to allocation interface IP from.|**Type:** `object`<br/>|
+| `global.controlPlane.machineTemplate.network.networkDevices[*].ipPoolRef[*].apiGroup` | **API group**|**Type:** `string`<br/>|
+| `global.controlPlane.machineTemplate.network.networkDevices[*].ipPoolRef[*].kind` | **Resource kind**|**Type:** `string`<br/>|
+| `global.controlPlane.machineTemplate.network.networkDevices[*].ipPoolRef[*].name` | **Resource name**|**Type:** `string`<br/>|
+| `global.controlPlane.machineTemplate.network.networkDevices[*].name` | **Device name**|**Type:** `string`<br/>|
 | `global.controlPlane.machineTemplate.numCores` |Number of CPU cores|**Type:** `integer`<br/>**Example:** `6`<br/>|
 | `global.controlPlane.machineTemplate.numSockets` |Number of CPU sockets|**Type:** `integer`<br/>**Example:** `6`<br/>|
 | `global.controlPlane.machineTemplate.pool` |Name of the resource pool to add VMs to.|**Type:** `string`<br/>|
@@ -127,12 +131,16 @@ Groups of worker nodes with identical configuration.
 | `global.nodePools.worker.machineHealthCheck.unhealthyNotReadyTimeout` | **Timeout for ready** - If a node is not in condition 'Ready' after this timeout, it will be considered unhealthy.|**Type:** `string`<br/>**Example:** `"300s"`<br/>**Default:** `"10m0s"`|
 | `global.nodePools.worker.machineHealthCheck.unhealthyUnknownTimeout` | **Timeout for unknown condition** - If a node is in 'Unknown' condition after this timeout, it will be considered unhealthy.|**Type:** `string`<br/>**Example:** `"300s"`<br/>**Default:** `"10m0s"`|
 | `global.nodePools.worker.memoryMiB` |Memory size in MiB|**Type:** `integer`<br/>**Example:** `8192`<br/>|
-| `global.nodePools.worker.network` | **Network interface configuration**|**Type:** `object`<br/>|
-| `global.nodePools.worker.network.default` | **Default network interface configuration**|**Type:** `object`<br/>|
-| `global.nodePools.worker.network.default.bridge` | **Bridge name** - Name of network bridge to attach interface to.|**Type:** `string`<br/>|
-| `global.nodePools.worker.network.default.model` | **Device model** - Network device model.|**Type:** `string`<br/>**Allowed values:** `e1000`, `virtio`, `rtl8139`, `vmxnet3`<br/>|
-| `global.nodePools.worker.network.default.mtu` | **MTU** - Network device MTU. If set to '1', virtio devices inherit MTU from the attached bridge.|**Type:** `integer`<br/>|
-| `global.nodePools.worker.network.default.vlan` | **VLAN ID** - VLAN ID to tag interface with.|**Type:** `integer`<br/>|
+| `global.nodePools.worker.network` | **Network** - Network interfaces configuration.|**Type:** `object`<br/>|
+| `global.nodePools.worker.network.networkDevices` | **Network devices**|**Type:** `array`<br/>|
+| `global.nodePools.worker.network.networkDevices[*]` | **Network device** - Network device to attach to VM.|**Type:** `object`<br/>|
+| `global.nodePools.worker.network.networkDevices[*].bridge` | **Bridge name**|**Type:** `string`<br/>|
+| `global.nodePools.worker.network.networkDevices[*].ipPoolRef` | **IP pool reference**|**Type:** `array`<br/>|
+| `global.nodePools.worker.network.networkDevices[*].ipPoolRef[*]` | **IPPoolRef** - IP Pool to allocation interface IP from.|**Type:** `object`<br/>|
+| `global.nodePools.worker.network.networkDevices[*].ipPoolRef[*].apiGroup` | **API group**|**Type:** `string`<br/>|
+| `global.nodePools.worker.network.networkDevices[*].ipPoolRef[*].kind` | **Resource kind**|**Type:** `string`<br/>|
+| `global.nodePools.worker.network.networkDevices[*].ipPoolRef[*].name` | **Resource name**|**Type:** `string`<br/>|
+| `global.nodePools.worker.network.networkDevices[*].name` | **Device name**|**Type:** `string`<br/>|
 | `global.nodePools.worker.numCores` |Number of CPU cores|**Type:** `integer`<br/>**Example:** `6`<br/>|
 | `global.nodePools.worker.numSockets` |Number of CPU sockets|**Type:** `integer`<br/>**Example:** `6`<br/>|
 | `global.nodePools.worker.pool` |Name of the resource pool to add VMs to.|**Type:** `string`<br/>|
