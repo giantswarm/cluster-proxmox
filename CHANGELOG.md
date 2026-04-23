@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Apply migrations required by [upstream provider release v0.8.0](https://github.com/ionos-cloud/cluster-api-provider-proxmox/releases/tag/v0.8.0).
 - Update IPAddressClaim API versions to v1beta2.
+- Update `giantswarm/cluster` to v6.4.0.
 
 ## [1.0.0] - 2026-03-30
 
