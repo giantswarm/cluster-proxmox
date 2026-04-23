@@ -1,6 +1,31 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "$defs": {
+        "IPPoolRef": {
+            "type": "object",
+            "title": "IPPoolRef",
+            "description": "IP Pool to allocation interface IP from.",
+            "required": [
+                "apiGroup",
+                "kind",
+                "name"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "apiGroup": {
+                    "type": "string",
+                    "title": "API group"
+                },
+                "kind": {
+                    "type": "string",
+                    "title": "Resource kind"
+                },
+                "name": {
+                    "type": "string",
+                    "title": "Resource name"
+                }
+            }
+        },
         "bootVolume": {
             "type": "object",
             "title": "Boot volume configuration",
@@ -29,41 +54,6 @@
                 "pattern": "^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(/([0-9]|[1,2][0-9]|[3][0-2]))?$"
             },
             "minItems": 1
-        },
-        "defaultNetwork": {
-            "type": "object",
-            "title": "Default network interface configuration",
-            "additionalProperties": false,
-            "properties": {
-                "bridge": {
-                    "type": "string",
-                    "title": "Bridge name",
-                    "description": "Name of network bridge to attach interface to."
-                },
-                "model": {
-                    "type": "string",
-                    "title": "Device model",
-                    "description": "Network device model.",
-                    "enum": [
-                        "e1000",
-                        "virtio",
-                        "rtl8139",
-                        "vmxnet3"
-                    ]
-                },
-                "mtu": {
-                    "type": "integer",
-                    "title": "MTU",
-                    "description": "Network device MTU. If set to '1', virtio devices inherit MTU from the attached bridge."
-                },
-                "vlan": {
-                    "type": "integer",
-                    "title": "VLAN ID",
-                    "description": "VLAN ID to tag interface with.",
-                    "maximum": 4094,
-                    "minimum": 1
-                }
-            }
         },
         "diskFormat": {
             "type": "string",
@@ -163,6 +153,32 @@
                 8192
             ],
             "minimum": 8192
+        },
+        "networkDevice": {
+            "type": "object",
+            "title": "Network device",
+            "description": "Network device to attach to VM.",
+            "required": [
+                "bridge",
+                "name"
+            ],
+            "properties": {
+                "bridge": {
+                    "type": "string",
+                    "title": "Bridge name"
+                },
+                "ipPoolRef": {
+                    "type": "array",
+                    "title": "IP pool reference",
+                    "items": {
+                        "$ref": "#/$defs/IPPoolRef"
+                    }
+                },
+                "name": {
+                    "type": "string",
+                    "title": "Device name"
+                }
+            }
         },
         "numCores": {
             "type": "integer",
@@ -780,11 +796,18 @@
                                 },
                                 "network": {
                                     "type": "object",
-                                    "title": "Network interface configuration",
+                                    "title": "Network",
+                                    "description": "Network interface configuration.",
+                                    "required": [
+                                        "networkDevices"
+                                    ],
                                     "properties": {
-                                        "default": {
-                                            "$ref": "#/$defs/defaultNetwork",
-                                            "description": "Default network interface configuration."
+                                        "networkDevices": {
+                                            "type": "array",
+                                            "title": "Network devices",
+                                            "items": {
+                                                "$ref": "#/$defs/networkDevice"
+                                            }
                                         }
                                     }
                                 },
@@ -961,11 +984,18 @@
                                 },
                                 "network": {
                                     "type": "object",
-                                    "title": "Network interface configuration",
+                                    "title": "Network",
+                                    "description": "Network interfaces configuration.",
+                                    "required": [
+                                        "networkDevices"
+                                    ],
                                     "properties": {
-                                        "default": {
-                                            "$ref": "#/$defs/defaultNetwork",
-                                            "description": "Default network interface configuration."
+                                        "networkDevices": {
+                                            "type": "array",
+                                            "title": "Network devices",
+                                            "items": {
+                                                "$ref": "#/$defs/networkDevice"
+                                            }
                                         }
                                     }
                                 },

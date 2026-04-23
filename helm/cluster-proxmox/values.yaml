@@ -224,8 +224,7 @@ global:
       disks:
         bootVolume: {}
       format: raw
-      network:
-        default: {}
+      network: {}
       vmIDRange: {}
     oidc: {}
   metadata:
@@ -245,8 +244,7 @@ global:
         nodeStartupTimeout: 20m0s
         unhealthyNotReadyTimeout: 10m0s
         unhealthyUnknownTimeout: 10m0s
-      network:
-        default: {}
+      network: {}
       vmIDRange: {}
   podSecurityStandards:
     enforced: true
