@@ -6,7 +6,7 @@ annotations:
   application.giantswarm.io/team: rocket
   io.giantswarm.application.team: rocket
 home: https://github.com/giantswarm/cluster-proxmox
-icon: https://s.giantswarm.io/app-icons/proxmox/1/dark.png
+icon: https://s.giantswarm.io/app-icons/proxmox/2/light.svg
 keywords:
   - capmox
   - proxmox
