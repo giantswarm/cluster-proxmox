@@ -1,7 +1,17 @@
 {{/* Proxmox-specific cert-manager Helm values*/}}
 {{/* https://github.com/giantswarm/cert-manager-app/blob/main/helm/cert-manager/values.yaml*/}}
 {{- define "proxmoxCertManagerHelmValues" }}
+{{- $certManagerVersion := "N/A" }}
+{{- if $.Values.providerIntegration.useReleases }}
+{{- $_ := set $ "appName" "cert-manager" }}
+{{- $certManagerVersion = include "cluster.app.version" $ | trim }}
+{{- end }}
+{{- if or (eq $certManagerVersion "N/A") (semverCompare ">=4.0.0" $certManagerVersion) }}
 cert-manager:
   enableServiceLinks: true
   dns01RecursiveNameserversOnly: false # cluster chart sets to `true`, so revert to default false here
+{{- else }}
+enableServiceLinks: true
+dns01RecursiveNameserversOnly: false # cluster chart sets to `true`, so revert to default false here
+{{- end }}
 {{- end }}
