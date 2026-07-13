@@ -15,12 +15,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Updated `cert-manager` to v4.0.0 and migrated the values to match the new chart's schema.
-
-## [1.1.0] - 2026-06-19
-
-### Changed
-
 - Update `giantswarm/cluster` to v6.7.0.
 
 ## [1.0.1] - 2026-06-15
