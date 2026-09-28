@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Deploy `kube-vip`, `kube-vip-cloud-provider` and `proxmox-cloud-controller-manager` from OCIRepositories: cluster v8 no longer defines `cluster.app.catalog`, so the chart failed to render.
+
 ### Changed
 
 - Updated `cert-manager` to v4.0.0 and migrated the values to match the new chart's schema.
