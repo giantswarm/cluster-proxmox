@@ -2,7 +2,25 @@
 # This HelmRelease creates the kube-vip cloud-controller-manager which is responsible for
 # managing IP addresses for the Service loadbalancers.
 #
-apiVersion: helm.toolkit.fluxcd.io/v2beta1
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: OCIRepository
+metadata:
+  name: {{ include "resource.default.name" $ }}-kube-vip-cloud-provider
+  namespace: {{ $.Release.Namespace }}
+  annotations:
+    cluster.giantswarm.io/description: "{{ .Values.global.metadata.description }}"
+  labels:
+    cluster-apps-operator.giantswarm.io/watching: ""
+    {{- include "labels.common" . | nindent 4 }}
+spec:
+  {{- $_ := set $ "appName" "kube-vip-cloud-provider" }}
+  url: oci://gsoci.azurecr.io/charts/giantswarm/kube-vip-cloud-provider
+  ref:
+    tag: {{ include "cluster.app.version" $ }}
+  interval: 24h
+  timeout: 60s
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: {{ include "resource.default.name" $ }}-kube-vip-cloud-provider
@@ -18,14 +36,9 @@ spec:
   releaseName: cloud-provider-kube-vip
   targetNamespace: kube-system
   storageNamespace: kube-system
-  chart:
-    spec:
-      chart: kube-vip-cloud-provider
-      {{- $_ := set $ "appName" "kube-vip-cloud-provider" }}
-      version: {{ include "cluster.app.version" $ }}
-      sourceRef:
-        kind: HelmRepository
-        name: {{ include "resource.default.name" $ }}-{{ include "cluster.app.catalog" $ }}
+  chartRef:
+    kind: OCIRepository
+    name: {{ include "resource.default.name" $ }}-kube-vip-cloud-provider
   dependsOn:
     - name: {{ include "resource.default.name" $ }}-cilium
       namespace: {{ $.Release.Namespace }}
