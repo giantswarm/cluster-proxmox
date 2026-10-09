@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - chore(deps): update helm release cluster to v6.8.0
 - chore(deps): update helm release cluster to v8.0.0
 - chore(deps): update helm release cluster to v8.3.0
+- Update architect to v10.12.2 (giantswarm/cluster-proxmox#119)
 
 ## [1.1.0] - 2026-06-19
 
