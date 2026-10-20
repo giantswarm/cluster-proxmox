@@ -1,3 +1,9 @@
+cluster:
+  internal:
+    ephemeralConfiguration:
+      offlineTesting:
+        renderWithoutReleaseResource: true
+
 global:
   managementCluster: test-mc
   connectivity:
