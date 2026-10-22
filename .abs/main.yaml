@@ -1,4 +1,6 @@
 replace-chart-version-with-git: true
 generate-metadata: true
 chart-dir: ./helm/cluster-proxmox
+helm-template-extra-values: helm/cluster-proxmox/ci/ci-values.yaml
 destination: ./build
+ct-config: .abs/ct.yaml
