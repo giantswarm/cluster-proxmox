@@ -28,6 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update architect to v10.16.6 (giantswarm/cluster-proxmox#137)
 - Update architect to v10.16.7 (giantswarm/cluster-proxmox#138)
 - Update architect to v10.17.2 (giantswarm/cluster-proxmox#142)
+- Update architect to v10.17.4 (giantswarm/cluster-proxmox#144)
 
 ## [1.1.0] - 2026-06-19
 
